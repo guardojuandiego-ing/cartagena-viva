@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartagena Viva — Turismo transparente en Cartagena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F2439;
+    --ink-2:#0A1A2B;
+    --paper:#FAF5EA;
+    --coral:#FF6B57;
+    --coral-deep:#E14F3D;
+    --turquoise:#127E8A;
+    --turquoise-deep:#0B5C66;
+    --gold:#F2B705;
+    --on-paper:#16283A;
+    --on-paper-muted:rgba(22,40,58,0.68);
+    --on-dark:#FAF5EA;
+    --on-dark-muted:rgba(250,245,234,0.72);
+    --line-on-paper:rgba(22,40,58,0.14);
+    --line-on-dark:rgba(250,245,234,0.22);
+    --surface-base: var(--paper);
+    --surface-alt: var(--turquoise);
+    --surface-deep: var(--ink);
+    --header-bg: rgba(250,245,234,0.86);
+    --radius: 4px;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#1B222C;
+      --on-paper:#F1ECE0;
+      --on-paper-muted:rgba(241,236,224,0.68);
+      --line-on-paper:rgba(241,236,224,0.16);
+      --ink:#080F19;
+      --ink-2:#050B12;
+      --header-bg: rgba(27,34,44,0.86);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#1B222C;
+    --on-paper:#F1ECE0;
+    --on-paper-muted:rgba(241,236,224,0.68);
+    --line-on-paper:rgba(241,236,224,0.16);
+    --ink:#080F19;
+    --ink-2:#050B12;
+    --header-bg: rgba(27,34,44,0.86);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--on-paper);
+    font-family:'Work Sans',-apple-system,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',Georgia,serif;
+    font-weight:600;
+    line-height:1.08;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  h2{font-size:clamp(1.8rem,3.4vw,2.6rem);}
+  p{margin:0;}
+  .measure{max-width:62ch;}
+  .eyebrow-label{
+    font-family:'Work Sans',sans-serif;
+    font-size:0.8rem;
+    font-weight:600;
+    color:var(--coral);
+  }
+  section .eyebrow-label{display:block;margin-bottom:14px;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:40;
+    background:var(--header-bg);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-on-paper);
+  }
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;max-width:1120px;margin:0 auto;
+  }
+  .brand{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;
+    display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--on-paper);
+  }
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--coral);display:inline-block;}
+  .nav-links{
+    display:flex;gap:32px;list-style:none;margin:0;padding:0;
+    font-size:0.94rem;font-weight:500;
+  }
+  .nav-links a{text-decoration:none;opacity:0.82;transition:opacity .15s ease;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{
+    padding:10px 20px;border-radius:999px;background:var(--ink);color:var(--paper)!important;
+    text-decoration:none;font-size:0.9rem;font-weight:600;white-space:nowrap;
+  }
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:6px;}
+  .nav-toggle span{display:block;width:22px;height:2px;background:var(--on-paper);margin:5px 0;}
+  .nav-right{display:flex;align-items:center;gap:28px;}
+
+  @media (max-width:840px){
+    .nav-links{
+      position:absolute;top:100%;left:0;right:0;
+      background:var(--paper);border-bottom:1px solid var(--line-on-paper);
+      flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .25s ease;
+    }
+    .nav-links.open{max-height:320px;}
+    .nav-links li{width:100%;}
+    .nav-links a{display:block;padding:16px 28px;border-top:1px solid var(--line-on-paper);}
+    .nav-toggle{display:block;}
+    .nav-right .nav-cta{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);
+    color:var(--on-dark);
+    padding:88px 0 0;
+    overflow:hidden;
+  }
+  .hero-inner{
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem,5vw,3.6rem);
+    color:var(--on-dark);
+  }
+  .hero h1 em{font-style:italic;font-weight:500;color:var(--gold);}
+  .hero p.lede{
+    margin-top:22px;font-size:1.12rem;color:var(--on-dark-muted);max-width:46ch;
+  }
+  .hero-ctas{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 24px;border-radius:999px;font-weight:600;font-size:0.95rem;
+    text-decoration:none;border:1px solid transparent;cursor:pointer;
+  }
+  .btn-primary{background:var(--coral);color:#fff;}
+  .btn-primary:hover{background:var(--coral-deep);}
+  .btn-ghost{border-color:var(--line-on-dark);color:var(--on-dark);}
+  .btn-ghost:hover{background:rgba(250,245,234,0.08);}
+
+  .hero-art{animation:riseIn 1s ease .1s both;}
+  .hero h1, .hero p.lede, .hero-ctas{animation:riseIn .9s ease both;}
+  .hero p.lede{animation-delay:.12s;}
+  .hero-ctas{animation-delay:.22s;}
+  @keyframes riseIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion:reduce){
+    .hero-art,.hero h1,.hero p.lede,.hero-ctas{animation:none;}
+  }
+
+  .skyline-wrap{padding-bottom:0;}
+
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr;}
+    .hero{padding-top:64px;}
+  }
+
+  /* ---------- Sections ---------- */
+  section{padding:96px 0;}
+  .section-alt{background:var(--turquoise);color:#fff;}
+  .section-alt .eyebrow-label{color:var(--gold);}
+  .section-deep{background:var(--ink);color:var(--on-dark);}
+  .section-deep .eyebrow-label{color:var(--coral);}
+
+  /* Como funciona */
+  .pasos{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px;
+  }
+  .paso .num{
+    font-family:'Fraunces',serif;font-size:1.1rem;color:var(--gold);
+    border:1px solid rgba(255,255,255,0.35);border-radius:50%;
+    width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+    margin-bottom:20px;
+  }
+  .paso h3{font-size:1.18rem;color:#fff;margin-bottom:10px;}
+  .paso p{color:rgba(255,255,255,0.82);font-size:0.98rem;}
+  @media (max-width:840px){.pasos{grid-template-columns:1fr;gap:32px;}}
+
+  /* Involucrados */
+  .roles{
+    display:flex;flex-wrap:wrap;gap:14px;margin-top:40px;
+  }
+  .role-pill{
+    border:1px solid var(--line-on-dark);border-radius:999px;
+    padding:10px 18px;font-size:0.92rem;color:var(--on-dark-muted);
+  }
+
+  /* Equipo */
+  .equipo-cols{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px 48px;margin-top:44px;
+    border-top:1px solid var(--line-on-paper);
+  }
+  .equipo-cols li{
+    list-style:none;padding:16px 0;border-bottom:1px solid var(--line-on-paper);
+    font-family:'Fraunces',serif;font-size:1.05rem;
+  }
+  .equipo-meta{margin-top:36px;color:var(--on-paper-muted);font-size:0.94rem;}
+  @media (max-width:640px){.equipo-cols{grid-template-columns:1fr;}}
+
+  /* Demo interactiva */
+  .demo-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:44px;}
+  .demo-tab-btn{
+    padding:10px 20px;border-radius:999px;border:1px solid var(--line-on-paper);
+    background:transparent;color:var(--on-paper);font-family:'Work Sans',sans-serif;
+    font-size:0.92rem;font-weight:600;cursor:pointer;transition:background .15s ease,color .15s ease;
+  }
+  .demo-tab-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+  .demo-panel{display:none;margin-top:32px;}
+  .demo-panel.active{display:block;}
+
+  .demo-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+  .filter-chip{
+    padding:8px 16px;border-radius:999px;border:1px solid var(--line-on-paper);
+    background:transparent;color:var(--on-paper-muted);font-family:'Work Sans',sans-serif;
+    font-size:0.86rem;font-weight:600;cursor:pointer;transition:background .15s ease,color .15s ease;
+  }
+  .filter-chip.active{background:var(--coral);color:#fff;border-color:var(--coral);}
+
+  .app-list{border-top:1px solid var(--line-on-paper);margin-top:20px;}
+  .app-row{
+    display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+    padding:18px 0;border-bottom:1px solid var(--line-on-paper);
+  }
+  .app-row .app-name{font-weight:600;font-size:0.98rem;}
+  .app-row .app-meta{color:var(--on-paper-muted);font-size:0.86rem;margin-top:3px;}
+  .app-row .app-value{
+    text-align:right;white-space:nowrap;font-family:'Fraunces',serif;
+    font-size:1.05rem;font-weight:600;
+  }
+  .app-row .app-value small{font-family:'Work Sans',sans-serif;font-weight:500;font-size:0.72rem;color:var(--on-paper-muted);}
+
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:0.72rem;font-weight:700;margin-top:6px;}
+  .badge-si{background:rgba(18,126,138,0.14);color:var(--turquoise-deep);}
+  .badge-no{background:rgba(255,107,87,0.14);color:var(--coral-deep);}
+
+  .rec-block-title{
+    font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;
+    color:var(--on-paper-muted);margin:28px 0 4px;
+  }
+  .rec-block-title:first-child{margin-top:0;}
+
+  .empty-state{color:var(--on-paper-muted);font-size:0.92rem;padding:18px 0;}
+
+  @media (max-width:640px){
+    .app-row{grid-template-columns:1fr;}
+    .app-row .app-value{text-align:left;margin-top:6px;}
+  }
+
+  footer{
+    background:var(--ink-2);color:var(--on-dark-muted);
+    padding:44px 0;font-size:0.88rem;
+  }
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  :focus-visible{outline:2px solid var(--coral);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="brand" href="#top"><span class="dot"></span>Cartagena Viva</a>
+    <button class="nav-toggle" aria-label="Abrir menú" id="navToggle">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#solucion">Cómo funciona</a></li>
+      <li><a href="#demo">Pruébalo</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="nav-cta" href="#demo">Probar la demo</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <h1>Cartagena tiene mil rutas.<br><em>Que ninguna te cueste de más.</em></h1>
+        <p class="lede">Cartagena Viva centraliza precios verificados, guías certificados y recomendaciones a la medida, para que el turista extranjero explore la ciudad con la misma confianza con la que la planeó.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#solucion">Cómo funciona</a>
+          <a class="btn btn-ghost" href="#demo">Ver la demo en acción</a>
+        </div>
+      </div>
+      <div class="hero-art skyline-wrap">
+        <svg viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustración del centro histórico de Cartagena, con fachadas coloniales de colores y el mar Caribe">
+          <rect x="0" y="0" width="520" height="420" fill="none"/>
+          <circle cx="420" cy="86" r="46" fill="#F2B705" opacity="0.9"/>
+          <!-- buildings -->
+          <g>
+            <rect x="20"  y="150" width="70" height="180" fill="#E14F3D"/>
+            <rect x="96"  y="120" width="70" height="210" fill="#F2B705"/>
+            <rect x="172" y="170" width="70" height="160" fill="#FAF5EA"/>
+            <rect x="248" y="100" width="72" height="230" fill="#127E8A"/>
+            <rect x="326" y="160" width="70" height="170" fill="#E14F3D" opacity="0.9"/>
+            <rect x="402" y="190" width="70" height="140" fill="#F2B705" opacity="0.85"/>
+          </g>
+          <!-- windows -->
+          <g fill="#0F2439" opacity="0.55">
+            <rect x="34" y="172" width="14" height="20"/><rect x="62" y="172" width="14" height="20"/>
+            <rect x="34" y="210" width="14" height="20"/><rect x="62" y="210" width="14" height="20"/>
+            <rect x="112" y="145" width="14" height="20"/><rect x="140" y="145" width="14" height="20"/>
+            <rect x="112" y="183" width="14" height="20"/><rect x="140" y="183" width="14" height="20"/>
+            <rect x="188" y="195" width="14" height="20"/><rect x="216" y="195" width="14" height="20"/>
+            <rect x="264" y="128" width="14" height="20"/><rect x="292" y="128" width="14" height="20"/>
+            <rect x="264" y="166" width="14" height="20"/><rect x="292" y="166" width="14" height="20"/>
+            <rect x="342" y="186" width="14" height="20"/><rect x="370" y="186" width="14" height="20"/>
+            <rect x="418" y="214" width="14" height="20"/><rect x="446" y="214" width="14" height="20"/>
+          </g>
+          <!-- arched doorways -->
+          <g fill="#0F2439" opacity="0.4">
+            <path d="M45 330 v-34 a10 10 0 0 1 20 0 v34 z"/>
+            <path d="M120 330 v-30 a12 12 0 0 1 24 0 v30 z"/>
+            <path d="M275 330 v-32 a11 11 0 0 1 22 0 v32 z"/>
+            <path d="M430 330 v-28 a10 10 0 0 1 20 0 v28 z"/>
+          </g>
+          <!-- sea -->
+          <path d="M0 350 Q 40 336 80 350 T 160 350 T 240 350 T 320 350 T 400 350 T 480 350 T 520 350 V420 H0 Z" fill="#0B5C66"/>
+          <path d="M0 372 Q 40 358 80 372 T 160 372 T 240 372 T 320 372 T 400 372 T 480 372 T 520 372 V420 H0 Z" fill="#0A4A53"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUCION / COMO FUNCIONA -->
+  <section id="solucion" class="section-alt">
+    <div class="wrap">
+      <span class="eyebrow-label">La propuesta</span>
+      <h2 style="color:#fff;max-width:16ch;">Tres piezas para viajar con confianza</h2>
+      <div class="pasos">
+        <div class="paso">
+          <span class="num">1</span>
+          <h3>Precios verificados</h3>
+          <p>Tarifas reales para transporte, tours y artesanías, disponibles antes de reservar — sin sobrecostos de última hora.</p>
+        </div>
+        <div class="paso">
+          <span class="num">2</span>
+          <h3>Guías y comercios certificados</h3>
+          <p>Contacto directo con prestadores certificados por Corpoturismo, con reseñas de otros viajeros como respaldo.</p>
+        </div>
+        <div class="paso">
+          <span class="num">3</span>
+          <h3>Recomendaciones a tu medida</h3>
+          <p>Rutas, restaurantes y planes sugeridos según tus intereses: historia, gastronomía o vida nocturna.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO INTERACTIVA -->
+  <section id="demo">
+    <div class="wrap">
+      <span class="eyebrow-label">Pruébalo</span>
+      <h2>La misma lógica del sistema, en tu navegador</h2>
+      <p class="measure" style="margin-top:14px;color:var(--on-paper-muted);">Una demo funcional de los cuatro módulos centrales, con datos de ejemplo — la misma información que usa el prototipo del sistema.</p>
+
+      <div class="demo-tabs" role="tablist">
+        <button class="demo-tab-btn active" data-tab="precios" type="button">Precios</button>
+        <button class="demo-tab-btn" data-tab="guias" type="button">Guías</button>
+        <button class="demo-tab-btn" data-tab="recomendaciones" type="button">Recomendaciones</button>
+        <button class="demo-tab-btn" data-tab="geo" type="button">Cerca de ti</button>
+      </div>
+
+      <!-- Panel: Precios -->
+      <div class="demo-panel active" id="panel-precios">
+        <div class="demo-filter-row" id="filtroPrecios">
+          <button class="filter-chip active" data-filtro="" type="button">Todas</button>
+          <button class="filter-chip" data-filtro="transporte" type="button">Transporte</button>
+          <button class="filter-chip" data-filtro="tour" type="button">Tours</button>
+          <button class="filter-chip" data-filtro="artesania" type="button">Artesanías</button>
+        </div>
+        <div class="app-list" id="listaPrecios"></div>
+      </div>
+
+      <!-- Panel: Guías -->
+      <div class="demo-panel" id="panel-guias">
+        <div class="demo-filter-row" id="filtroGuias">
+          <button class="filter-chip active" data-cert="no" type="button">Todos los guías</button>
+          <button class="filter-chip" data-cert="si" type="button">Solo certificados</button>
+        </div>
+        <div class="app-list" id="listaGuias"></div>
+      </div>
+
+      <!-- Panel: Recomendaciones -->
+      <div class="demo-panel" id="panel-recomendaciones">
+        <div class="demo-filter-row" id="filtroIntereses">
+          <button class="filter-chip active" data-interes="historia" type="button">Historia</button>
+          <button class="filter-chip" data-interes="gastronomia" type="button">Gastronomía</button>
+          <button class="filter-chip" data-interes="vida_nocturna" type="button">Vida nocturna</button>
+          <button class="filter-chip" data-interes="naturaleza" type="button">Naturaleza</button>
+        </div>
+        <div id="resultadoRecomendaciones"></div>
+      </div>
+
+      <!-- Panel: Geolocalización -->
+      <div class="demo-panel" id="panel-geo">
+        <div class="demo-filter-row" id="filtroGeo">
+          <button class="filter-chip active" data-punto="0" type="button">Centro Histórico</button>
+          <button class="filter-chip" data-punto="1" type="button">Bocagrande</button>
+          <button class="filter-chip" data-punto="2" type="button">Getsemaní</button>
+        </div>
+        <div class="app-list" id="listaGeo"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVOLUCRADOS -->
+  <section class="section-deep">
+    <div class="wrap">
+      <span class="eyebrow-label">A quién involucra</span>
+      <h2 style="color:#fff;max-width:22ch;">Un modelo pensado para beneficiar a varias partes a la vez</h2>
+      <div class="roles">
+        <span class="role-pill">Turistas internacionales</span>
+        <span class="role-pill">Guías turísticos locales</span>
+        <span class="role-pill">Hoteles y operadores certificados</span>
+        <span class="role-pill">Comercios y artesanos locales</span>
+        <span class="role-pill">Corpoturismo y entidades públicas</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section id="equipo">
+    <div class="wrap">
+      <span class="eyebrow-label">Equipo del proyecto</span>
+      <h2>Quiénes están detrás de Cartagena Viva</h2>
+      <ul class="equipo-cols">
+        <li>Mariam Benítez Amaya</li>
+        <li>María Angel Cantillo</li>
+        <li>Adriana Contreras Velásquez</li>
+        <li>Juan Diego Guardo Fontalvo</li>
+        <li>Estefanía Guardo Zabaleta</li>
+        <li>Mariana Salas Marrugo</li>
+      </ul>
+      <p class="equipo-meta">Escuela de Ingeniería, Arquitectura y Diseño / Negocios, Leyes y Sociedad — Universidad Tecnológica de Bolívar, Cartagena de Indias, 2026.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Cartagena Viva — Proyecto académico, UTB</span>
+    <span>Cartagena de Indias, Colombia</span>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+</script>
+
+<script>
+  // ---------------------------------------------------------
+  // Datos de ejemplo (los mismos que usa el prototipo en C++,
+  // para que ambas versiones sean consistentes entre sí).
+  // ---------------------------------------------------------
+  const SERVICIOS = [
+    {nombre:"Mototaxi turístico (1 hora)", categoria:"transporte", precio:35000, proveedor:"Cooperativa Turística CTG", certificado:true},
+    {nombre:"Taxi turístico al aeropuerto", categoria:"transporte", precio:25000, proveedor:"Taxis Amarillos Cartagena", certificado:true},
+    {nombre:"City tour Centro Histórico (3h, grupal)", categoria:"tour", precio:90000, proveedor:"Cartagena Free Tour", certificado:true},
+    {nombre:"Tour Islas del Rosario (día completo)", categoria:"tour", precio:180000, proveedor:"Naviera Rosario", certificado:true},
+    {nombre:"Chiva rumbera nocturna (sin registro)", categoria:"tour", precio:50000, proveedor:"Oferta informal callejera", certificado:false},
+    {nombre:"Sombrero vueltiao artesanal", categoria:"artesania", precio:60000, proveedor:"Artesanías Zenú", certificado:true},
+    {nombre:"Mola guna auténtica", categoria:"artesania", precio:45000, proveedor:"Cooperativa Kuna", certificado:true}
+  ];
+
+  const GUIAS = [
+    {nombre:"Carlos Julio Pérez", especialidad:"historia", certificado:true, calificacion:4.8, contacto:"300-111-2233"},
+    {nombre:"Diana Marcela Herrera", especialidad:"historia", certificado:true, calificacion:4.9, contacto:"300-444-5566"},
+    {nombre:"Ana Lucía Torres", especialidad:"gastronomia", certificado:true, calificacion:4.6, contacto:"300-222-3344"},
+    {nombre:"Yeimy Paola Cantillo", especialidad:"gastronomia", certificado:false, calificacion:4.0, contacto:"300-666-7788"},
+    {nombre:"Kevin Restrepo", especialidad:"vida_nocturna", certificado:false, calificacion:4.1, contacto:"300-333-4455"},
+    {nombre:"Rafael Ariza", especialidad:"vida_nocturna", certificado:true, calificacion:4.5, contacto:"300-777-8899"},
+    {nombre:"Jhon Freddy Salcedo", especialidad:"naturaleza", certificado:true, calificacion:4.7, contacto:"300-555-6677"}
+  ];
+
+  const SITIOS = [
+    {nombre:"Castillo San Felipe de Barajas", categoria:"historia", lat:10.4227, lon:-75.5397, descripcion:"Fortificación colonial, la más grande construida por los españoles en América"},
+    {nombre:"Plaza de los Coches (Centro Histórico)", categoria:"historia", lat:10.4236, lon:-75.5514, descripcion:"Puerta de entrada a la Ciudad Amurallada"},
+    {nombre:"Convento de la Popa", categoria:"historia", lat:10.4306, lon:-75.5325, descripcion:"Mirador con la mejor vista panorámica de la ciudad"},
+    {nombre:"Plaza de la Trinidad, Getsemaní", categoria:"vida_nocturna", lat:10.4204, lon:-75.5464, descripcion:"Barrio bohemio con arte urbano y ambiente nocturno"},
+    {nombre:"Café Havana", categoria:"vida_nocturna", lat:10.4213, lon:-75.5478, descripcion:"Salsa en vivo, uno de los bares más reconocidos de la ciudad"},
+    {nombre:"Restaurante Celele", categoria:"gastronomia", lat:10.4198, lon:-75.5460, descripcion:"Cocina caribe contemporánea con producto local"},
+    {nombre:"Mercado de Bazurto", categoria:"gastronomia", lat:10.4079, lon:-75.5216, descripcion:"Mercado popular, sabores auténticos y precios locales"},
+    {nombre:"Islas del Rosario", categoria:"naturaleza", lat:10.1810, lon:-75.7770, descripcion:"Archipiélago de aguas turquesa, se llega en lancha desde Cartagena"},
+    {nombre:"Playa de Bocagrande", categoria:"naturaleza", lat:10.3997, lon:-75.5560, descripcion:"Zona hotelera con playa y vista a la bahía"}
+  ];
+
+  const PUNTOS = [
+    {nombre:"Centro Histórico (Plaza Santo Domingo)", lat:10.4236, lon:-75.5504},
+    {nombre:"Bocagrande", lat:10.4000, lon:-75.5556},
+    {nombre:"Getsemaní", lat:10.4204, lon:-75.5464}
+  ];
+
+  const ETIQUETAS_INTERES = {
+    historia:"Historia", gastronomia:"Gastronomía",
+    vida_nocturna:"Vida nocturna", naturaleza:"Naturaleza"
+  };
+
+  // Formatea un numero con separador de miles al estilo colombiano: 90000 -> "90.000"
+  function formatPesos(valor){
+    return new Intl.NumberFormat('es-CO').format(valor);
+  }
+
+  // Escapa texto antes de insertarlo como HTML (evita romper el layout
+  // si algun dato tuviera caracteres especiales).
+  function escapeHtml(texto){
+    const div = document.createElement('div');
+    div.textContent = texto;
+    return div.innerHTML;
+  }
+
+  // Formula de Haversine: distancia en kilometros entre dos coordenadas
+  // geograficas. Es la misma formula usada en el prototipo en C++.
+  function haversineKm(lat1, lon1, lat2, lon2){
+    const R = 6371; // radio promedio de la Tierra, en km
+    const toRad = deg => deg * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  // ---------------------------------------------------------
+  // Modulo 1: Precios verificados
+  // ---------------------------------------------------------
+  function renderPrecios(filtro){
+    const cont = document.getElementById('listaPrecios');
+    const items = SERVICIOS
+      .filter(s => !filtro || s.categoria === filtro)
+      .slice()
+      .sort((a, b) => a.precio - b.precio);
+
+    cont.innerHTML = items.map(s => `
+      <div class="app-row">
+        <div>
+          <div class="app-name">${escapeHtml(s.nombre)}</div>
+          <div class="app-meta">${escapeHtml(s.proveedor)}</div>
+          <span class="badge ${s.certificado ? 'badge-si' : 'badge-no'}">${s.certificado ? 'Certificado' : 'Sin certificar'}</span>
+        </div>
+        <div class="app-value">$${formatPesos(s.precio)}</div>
+      </div>
+    `).join('') || '<p class="empty-state">No hay servicios registrados en esta categoría todavía.</p>';
+  }
+
+  // ---------------------------------------------------------
+  // Modulo 2: Directorio de guias certificados
+  // ---------------------------------------------------------
+  function renderGuias(soloCertificados){
+    const cont = document.getElementById('listaGuias');
+    const items = GUIAS
+      .filter(g => !soloCertificados || g.certificado)
+      .slice()
+      .sort((a, b) => b.calificacion - a.calificacion);
+
+    cont.innerHTML = items.map(g => `
+      <div class="app-row">
+        <div>
+          <div class="app-name">${escapeHtml(g.nombre)}</div>
+          <div class="app-meta">${ETIQUETAS_INTERES[g.especialidad] || g.especialidad} · ${escapeHtml(g.contacto)}</div>
+          <span class="badge ${g.certificado ? 'badge-si' : 'badge-no'}">${g.certificado ? 'Certificado' : 'No certificado'}</span>
+        </div>
+        <div class="app-value">★ ${g.calificacion.toFixed(1)}</div>
+      </div>
+    `).join('');
+  }
+
+  // ---------------------------------------------------------
+  // Modulo 3: Motor de recomendaciones personalizadas
+  // ---------------------------------------------------------
+  function renderRecomendaciones(categoria){
+    const cont = document.getElementById('resultadoRecomendaciones');
+    const sitios = SITIOS.filter(s => s.categoria === categoria);
+    const guias = GUIAS.filter(g => g.especialidad === categoria && g.certificado);
+
+    let html = '<div class="rec-block-title">Sitios recomendados para ti</div>';
+    html += '<div class="app-list">' + sitios.map(s => `
+      <div class="app-row" style="grid-template-columns:1fr;">
+        <div>
+          <div class="app-name">${escapeHtml(s.nombre)}</div>
+          <div class="app-meta">${escapeHtml(s.descripcion)}</div>
+        </div>
+      </div>
+    `).join('') + '</div>';
+
+    html += '<div class="rec-block-title">Guías certificados en este interés</div>';
+    if (guias.length){
+      html += '<div class="app-list">' + guias.map(g => `
+        <div class="app-row">
+          <div>
+            <div class="app-name">${escapeHtml(g.nombre)}</div>
+            <div class="app-meta">${escapeHtml(g.contacto)}</div>
+          </div>
+          <div class="app-value">★ ${g.calificacion.toFixed(1)}</div>
+        </div>
+      `).join('') + '</div>';
+    } else {
+      html += '<p class="empty-state">Por ahora no hay guías certificados registrados en esta categoría.</p>';
+    }
+    cont.innerHTML = html;
+  }
+
+  // ---------------------------------------------------------
+  // Modulo 4: Geolocalizacion (sitios mas cercanos al turista)
+  // ---------------------------------------------------------
+  function renderGeo(indicePunto){
+    const cont = document.getElementById('listaGeo');
+    const punto = PUNTOS[indicePunto];
+    const distancias = SITIOS
+      .map(s => ({ nombre: s.nombre, km: haversineKm(punto.lat, punto.lon, s.lat, s.lon) }))
+      .sort((a, b) => a.km - b.km);
+
+    cont.innerHTML = distancias.map(d => `
+      <div class="app-row">
+        <div class="app-name">${escapeHtml(d.nombre)}</div>
+        <div class="app-value">${d.km.toFixed(2)} <small>km</small></div>
+      </div>
+    `).join('');
+  }
+
+  // ---------------------------------------------------------
+  // Cambio de pestañas (Precios / Guías / Recomendaciones / Cerca de ti)
+  // ---------------------------------------------------------
+  document.querySelectorAll('.demo-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.demo-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Maneja un grupo de "chips" de filtro: marca el elegido como activo
+  // y ejecuta la funcion de re-render correspondiente.
+  function activarFiltros(idContenedor, alElegir){
+    const contenedor = document.getElementById(idContenedor);
+    contenedor.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        contenedor.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        alElegir(chip);
+      });
+    });
+  }
+
+  activarFiltros('filtroPrecios', chip => renderPrecios(chip.dataset.filtro));
+  activarFiltros('filtroGuias', chip => renderGuias(chip.dataset.cert === 'si'));
+  activarFiltros('filtroIntereses', chip => renderRecomendaciones(chip.dataset.interes));
+  activarFiltros('filtroGeo', chip => renderGeo(parseInt(chip.dataset.punto, 10)));
+
+  // Estado inicial de cada modulo al cargar la pagina.
+  renderPrecios('');
+  renderGuias(false);
+  renderRecomendaciones('historia');
+  renderGeo(0);
+</script>
+
+</body>
+</html>
